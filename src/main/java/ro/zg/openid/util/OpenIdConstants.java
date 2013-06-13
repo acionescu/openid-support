@@ -17,7 +17,20 @@ package ro.zg.openid.util;
 
 public class OpenIdConstants {
     public static final String USER_OPENID="USER_OPENID";
+    /* the url to redirect to after the openid client successfully authenticated a user
+     * against an openid provider
+     */
     public static final String RETURN_URL="RETURN_URL";
     public static final String PROVIDER_URL="PROVIDER_URL";
     public static final String REQUEST_ATTRIBUTES="REQUEST_ATTRIBUTES";
+    
+    /* the url to redirect to after the user was successfully authenticated 
+     * by the login service */
+    public static final String LOGIN_SERVICE_RETURN_URL="LOGIN_SERVICE_RETURN_URL";
+    
+    /* a flag used by the openid provider, to know if a request comes from the login service */
+    public static final String WAIT_LOGIN_SERVICE_RESPONSE="WAIT_LOGIN_SERVICE_RESPONSE";
+    
+    /* a variable to store the client request params on session, while doing authentication */
+    public static final String ORIGINAL_OPENID_PARAMS="ORIGINAL_OPENID_PARAMS";
 }

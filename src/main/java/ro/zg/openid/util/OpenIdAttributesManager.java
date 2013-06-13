@@ -19,13 +19,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OpenIdAttributesManager {
-    private Map<String, OpenIdProviderAttributesManager> providers = new HashMap<String, OpenIdProviderAttributesManager>();
+    private static Map<String, OpenIdProviderAttributesManager> providers = new HashMap<String, OpenIdProviderAttributesManager>();
+    private static OpenIdProviderAttributesManager defaultManager;
+    private static OpenIdAttributesManager _instance;
     
-    public OpenIdAttributesManager(){
+    private OpenIdAttributesManager(){
+	defaultManager = new YahooOpenIdAttributesManager();
 	providers.put("https://www.google.com/accounts/o8/id", new GoogleOpenIdAttributesManager());
-	providers.put("https://me.yahoo.com", new YahooOpenIdAttributesManager());
+	providers.put("https://me.yahoo.com", defaultManager);
     }
     
+    public static OpenIdAttributesManager getInstance() {
+	if(_instance == null) {
+	    _instance = new OpenIdAttributesManager();
+	}
+	return _instance;
+    }
     
     public OpenIdAttribute[] getAttributes(String providerUrl, String... names){
 	OpenIdProviderAttributesManager oam = resolveProvider(providerUrl);
@@ -38,6 +47,12 @@ public class OpenIdAttributesManager {
     }
     
     private OpenIdProviderAttributesManager resolveProvider(String providerUrl){
-	return providers.get(providerUrl);
+	OpenIdProviderAttributesManager openIdProviderAttributesManager = providers.get(providerUrl);
+	if(openIdProviderAttributesManager == null) {
+	    return defaultManager;
+	}
+	return openIdProviderAttributesManager;
+	
+	
     }
 }
